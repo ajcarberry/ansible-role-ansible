@@ -1,0 +1,49 @@
+---
+
+# Configure a standard ansible user with a standard SSH key
+- name: Add ansible user
+  user:
+    name: "{{ ansible_user }}"
+    shell: /bin/bash
+    state: present
+
+- name: Add ansible authorized key
+  authorized_key:
+    user: "{{ ansible_user }}"
+    key: "{{ ansible_user_key }}"
+
+- name: Install sudo
+  apt:
+    name: sudo
+    state: present
+
+- name: Allow sudo for ansible user
+  copy:
+    src: ansible_sudo.j2
+    dest: /etc/sudoers.d/ansible
+    owner: root
+    group: root
+    mode: 440
+
+# Setup/install tasks.
+- name: Set up Ansible on Ubuntu.
+  include_tasks: ubuntu.yml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Set up Ansible on Debian.
+  include_tasks: debian.yml
+  when: ansible_distribution == 'Debian'
+
+- name: Install Ansible requirements from apt
+  apt:
+    update_cache: yes
+    name:
+      - sshpass
+      - pyopenssl
+      - python-passlib
+      - python-pexpect
+      - python-markupsafe
+      - python-cryptography
+      - python-cffi
+      - apt-transport-https
+    state: present
