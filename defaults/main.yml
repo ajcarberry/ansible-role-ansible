@@ -1,0 +1,4 @@
+---
+
+ansible_user: alfred
+ansible_user_key: https://raw.githubusercontent.com/ajcarberry/packer-ubuntu-1804/feature-initial/keys/alfred.pub
