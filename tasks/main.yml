@@ -18,7 +18,7 @@
     state: present
 
 - name: Allow sudo for ansible user
-  copy:
+  template:
     src: ansible_sudo.j2
     dest: /etc/sudoers.d/ansible
     owner: root
@@ -39,7 +39,7 @@
     update_cache: yes
     name:
       - sshpass
-      - pyopenssl
+      - python-openssl
       - python-passlib
       - python-pexpect
       - python-markupsafe
