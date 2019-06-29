@@ -1,5 +1,14 @@
 ---
 
+- name: Install Ansible pre-reqs from apt
+  apt:
+    update_cache: yes
+    name:
+      - software-properties-common
+      - git
+      - aptitude
+    state: present
+
 # Configure a standard ansible user with a standard SSH key
 - name: Add ansible user
   user:
@@ -39,6 +48,7 @@
     update_cache: yes
     name:
       - sshpass
+      - python-apt
       - python-openssl
       - python-passlib
       - python-pexpect
